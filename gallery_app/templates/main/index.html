@@ -47,6 +47,10 @@
                     <div class="border-button">
                       <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi User</a>
                     </div>
+                    {% elif admin_data %}
+                    <div class="border-button">
+                      <a href="administrator" class="sign-in-up"><i class="fa fa-user"></i> Hi, {{admin_data.1}} </a>
+                    </div>
                     {% else %}
                     <div class="border-button">
                       <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi Guest</a>

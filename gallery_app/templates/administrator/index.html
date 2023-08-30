@@ -38,7 +38,7 @@
 					</li>
 				
 					<li  >
-                        <a   href="chart.html"><i class="fa fa-home fa-3x"></i> Home</a>
+                        <a   href="home"><i class="fa fa-home fa-3x"></i> Home</a>
                     </li>
                     <li>
                         <a href="index.html"><i class="fa fa-gear fa-3x"></i> Edit Profile</a>
@@ -53,7 +53,7 @@
                         <a  href="tab-panel.html"><i class="fa fa-flag fa-3x"></i> Gallery Edit</a>
                     </li>
 					<li>
-                        <a  href="tab-panel.html"><i class="fa fa-mail-forward fa-3x"></i> Logout</a>
+                        <a href="logout"><i class="fa fa-mail-forward fa-3x"></i> Logout</a>
                     </li>
 
 					
@@ -95,7 +95,7 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
-                             
+            {% block content %}
                 
                 <div class="row">
                     <a href="" style="text-decoration: none; color: black;">
@@ -149,6 +149,7 @@
 		     </div>
 			</div>        
     </div>
+    {% endblock %}
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
