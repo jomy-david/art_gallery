@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
       <meta charset="utf-8" />
@@ -12,6 +12,7 @@
     <link href="static/admin/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
     <link href="static/admin/css/custom.css" rel="stylesheet" />
+    <link href="static/admin/css/approvals.css" rel="stylesheet" />
      <!-- GOOGLE FONTS-->
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
@@ -44,7 +45,7 @@
                         <a href="index.html"><i class="fa fa-gear fa-3x"></i> Edit Profile</a>
                     </li>
                      <li>
-                        <a  href="artistAprovals"><i class="fa fa-minus-square fa-3x"></i>Pending Artist Aprovals</a>
+                        <a  href="ui.html"><i class="fa fa-minus-square fa-3x"></i>Pending Artist Aprovals</a>
                     </li>
                     <li>
                         <a  href="tab-panel.html"><i class="fa fa-film fa-3x"></i> Pending Posts</a>
@@ -95,60 +96,31 @@
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
-                             
+                <p style="width: 100%;"><h1 style="text-align: center;text-decoration: underline;">Aprovals Pending</h1></p>
+                <section class="ap-table" >
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Display Name</th>
+                            <th scope="col">Details</th>
+                            <th scope="col" colspan="2" style="text-align: center;">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td><a href="" style="color: black;">view</a></td>
+                            <td><a href="" style="color: black;">Aprove</a></td>
+                            <td><a href="" style="color: black;">Deny</a></td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                </section>
                 
-                <div class="row">
-                    <a href="" style="text-decoration: none; color: black;">
-                <div class="col-md-3 col-sm-6 col-xs-6">           
-			<div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-red set-icon">
-                    <i class="fa fa-film"></i>
-                </span>
-                <div class="text-box" >
-                    <p class="main-text">120 New</p>
-                    <p class="text-muted">Pending Posts</p>
-                </div>
-            
-             </div>
-		     </div>
-                    </a>
-                    <a href="artistAprovals" style="text-decoration: none; color: black;">
-                    <div class="col-md-3 col-sm-6 col-xs-6">           
-			<div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-green set-icon">
-                    <i class="fa fa-bars"></i>
-                </span>
-                <div class="text-box" >
-                    <p class="main-text">30 Aprovals</p>
-                    <p class="text-muted">Artist Aprovals</p>
-                </div>
-             </div>
-		     </div>
-                    </a>
-                    <!-- <div class="col-md-3 col-sm-6 col-xs-6">            -->
-			<!-- <div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-blue set-icon">
-                    <i class="fa fa-bell-o"></i>
-                </span>
-                <div class="text-box" >
-                    <p class="main-text">240 New</p>
-                    <p class="text-muted">Notifications</p>
-                </div>
-             </div>
-		     </div>
-                    <div class="col-md-3 col-sm-6 col-xs-6">           
-			<div class="panel panel-back noti-box">
-                <span class="icon-box bg-color-brown set-icon">
-                    <i class="fa fa-rocket"></i>
-                </span>
-                <div class="text-box" >
-                    <p class="main-text">3 Orders</p>
-                    <p class="text-muted">Pending</p>
-                </div>
-             </div>-->
-		     </div>
-			</div>        
-    </div>
+             
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->

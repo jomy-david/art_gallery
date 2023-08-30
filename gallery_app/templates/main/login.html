@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="templatemo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <title>Login Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="static/main/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="static/main/assets/css/templatemo-snapx-photography.css">
+    <link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+    <link rel="stylesheet" href="static/main/assets/css/stylesPerson.css">
+  </head>
+
+<body>
+
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="./" class="logo">
+                        <img src="static/main/assets/images/logo.png" alt="Open World">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li><a href="./" class="active">Home</a></li>
+                        <li><a href="Gallery">Gallery</a></li>
+                    </ul>   
+                    <div class="border-button">
+                      <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi Guest</a>
+                    </div>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <!-- Login -->
+
+  <!-- Main Section -->
+
+<main class="container">
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+            <td>Username : </td>
+            <td><input type="text" name="username" required></td>
+            </tr>
+            <td>Password : </td>
+            <td><input type="text" name="password" required></td>
+            </tr>
+            <tr style="height: 50px;"></tr>
+        </table>
+        <input class="btn btn-primary" type="submit" value="Login"><br/><br/>
+        <span style="color: red;">{{error}}</span>
+    </form>
+</main>
