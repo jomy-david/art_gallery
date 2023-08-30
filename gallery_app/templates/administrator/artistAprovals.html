@@ -107,16 +107,19 @@
                             <th scope="col" colspan="2" style="text-align: center;">Actions</th>
                           </tr>
                         </thead>
+                        {% if aprovals %}
                         <tbody>
+                            {% for i in aprovals %}
                           <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <td>{{i.1}}</td>
+                            <td>{{i.2}}</td>
                             <td><a href="" style="color: black;">view</a></td>
                             <td><a href="" style="color: black;">Aprove</a></td>
                             <td><a href="" style="color: black;">Deny</a></td>
                           </tr>
-                          
+                            {% endfor %}
                         </tbody>
+                        {% endif %}
                       </table>
                 </section>
                 

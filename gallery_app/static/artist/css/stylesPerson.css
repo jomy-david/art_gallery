@@ -1,0 +1,55 @@
+/* Body */
+
+@font-face {
+    font-family: Handjet;
+    src: url('fonts/Handjet/Handjet-ExtraBold.ttf');
+}
+
+
+
+body {
+    overflow-x: hidden;
+    background-color: rgba(0, 133, 195, 0.205);
+    padding-bottom: 50px;
+    padding-top: 50px;
+    height: fit-content;
+
+}
+
+
+/* Main */
+
+main {
+    height: 85vh;
+    align-items: center;
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+form {
+    margin-top: 100px;
+    border: 1px solid rgb(14, 120, 190);
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-radius: 25px;
+    box-shadow: 0px 0px 40px rgb(14, 120, 190);
+    height: fit-content;
+}
+
+td {
+    position: relative;
+    text-align: right;
+    padding: 20px;
+}
+
+#gender {
+    text-align: center;
+    tab-size: 8;
+}
+
+p {
+    position: absolute;
+    left: 100px;
+}

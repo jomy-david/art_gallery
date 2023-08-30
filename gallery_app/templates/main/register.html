@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="templatemo">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <title>Registration</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="static/main/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="static/main/assets/css/templatemo-snapx-photography.css">
+    <link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+    <link rel="stylesheet" href="static/artist/css/stylesPerson.css">
+  </head>
+
+<body>
+
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="./" class="logo">
+                        <img src="static/main/assets/images/logo.png" alt="Open World">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li><a href="./" class="active">Home</a></li>
+                        <li><a href="Gallery">Gallery</a></li>
+                    </ul>   
+                    <div class="border-button">
+                      <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi Guest</a>
+                    </div>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <!-- Login -->
+
+  <!-- Main Section -->
+
+<main class="container">
+    <section id="selection">
+        <table>
+            <tr><h1 style="text-decoration: underline;">Registration</h1></tr>
+            <tr style="height: 20px;"></tr>
+            <tr>
+            <td><button class="btn btn-primary" onclick="show('user','selection')">User</button></td>
+            <td><button class="btn btn-primary" onclick="show('artist','selection')">Artist</button></td>
+            </tr>
+        </table>
+    </section>
+
+    <form id="user" style="display: none;" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table >
+            <tr>
+            <td>Name : </td>
+            <td><input type="text" name="name" required></td>
+            </tr>
+            <td>User ID : </td>
+            <td><input type="text" name="user_id" required></td>
+            </tr>
+            <tr>
+                <td>Display Name : </td>
+                <td><input type="text" name="d_name" required></td>
+            </tr>
+            <tr>
+                <td>E-Mail : </td>
+                <td><input type="email" name="email" required></td>
+            </tr>
+            <tr>
+                <td>Contact : </td>
+                <td><input type="text" name="contact" required></td>
+            </tr>
+            <tr>
+                <td style="width: fit-content;">Gender : </td>
+                <td style="text-align: center;">Male<input type="radio" name="gender" value="male" required>&nbsp;&nbsp;&nbsp;&nbsp;Female<input type="radio" name="gender" value="male" required></td>
+            </tr>
+            <tr>
+                <td>Password : </td>
+                <td><input type="text" name="password" required></td>
+            </tr>
+            <tr>
+                <td>Confirm Password : </td>
+                <td><input type="text" name="c_password" required></td>
+            </tr>
+            <tr style="height: 50px;"></tr>
+        </table>
+        <button class="btn btn-primary" type="submit" name="submit" value="user">Register</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary"><a href="register" style="color: white;">Back</a></button><br/><br/>
+        <span style="color: red;">{{error}}</span>
+    </form>
+
+    <form id="artist" style="display: none;" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table >
+            <tr>
+            <td>Name : </td>
+            <td><input type="text" name="name" required></td>
+            </tr>
+            <td>Artist ID : </td>
+            <td><input type="text" name="artist_id" required></td>
+            </tr>
+            <tr>
+                <td>Display Name : </td>
+                <td><input type="text" name="d_name" required></td>
+            </tr>
+            <tr>
+                <td>E-Mail : </td>
+                <td><input type="email" name="email" required></td>
+            </tr>
+            <tr>
+                <td>Contact : </td>
+                <td><input type="text" name="contact" required></td>
+            </tr>
+            <tr>
+                <td>Address : </td>
+                <td><textarea id="enquiry" required style="height:200px;resize: none;" name="address"></textarea></td>
+            </tr>
+            <tr>
+                <td style="width: fit-content;">Gender : </td>
+                <td style="text-align: center;">Male<input type="radio" name="gender" value="male" required>&nbsp;&nbsp;&nbsp;&nbsp;Female<input type="radio" name="gender" value="male" required></td>
+            </tr>
+            <tr>
+                <td>Password : </td>
+                <td><input type="text" name="password" required></td>
+            </tr>
+            <tr>
+                <td>Confirm Password : </td>
+                <td><input type="text" name="c_password" required></td>
+            </tr>
+            <tr>
+                <td>Image : </td>
+                <td style="display: flex; justify-content: center;margin-left:-30px;"><input type="file" name="pic" required></td>
+            </tr>
+            <tr style="height: 50px;"></tr>
+        </table>
+        <button class="btn btn-primary" type="submit" name="submit" value="artist">Register</button>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary"><a href="register" style="color: white;">Back</a></button><br/><br/>
+        <span style="color: red;">{{error}}</span>
+    </form>
+</main>
+
+
+<script src="static/main/assets/js/script.js"></script>
+
+</body>

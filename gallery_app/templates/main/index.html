@@ -42,10 +42,16 @@
                     <ul class="nav">
                         <li><a href="./" class="active">Home</a></li>
                         <li><a href="Gallery">Gallery</a></li>
-                    </ul>   
+                    </ul> 
+                    {% if user_data %}  
+                    <div class="border-button">
+                      <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi User</a>
+                    </div>
+                    {% else %}
                     <div class="border-button">
                       <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi Guest</a>
                     </div>
+                    {% endif %}
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>
@@ -68,7 +74,7 @@
         <div class="social_login">
             <div class="action_btns">
                 <div class="one_half"><a href="Login" class="btn">Login</a></div>
-                <div class="one_half last"><a href="Registration" class="btn">Sign up</a></div>
+                <div class="one_half last"><a href="register" class="btn">Sign up</a></div>
             </div>
         </div>
     </section>
