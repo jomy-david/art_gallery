@@ -1,0 +1,46 @@
+{% extends 'artist/index.html' %}
+
+{% block content %}
+<table style="width: fit-content;" class="table table-bordered table-dark">
+  
+      <tr>
+        <th>Name</th>
+        <td>{{details.1}}</td>
+      </tr>
+
+
+      <tr>
+        <th>Artist ID</th>
+        <td>{{details.2}}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{details.3}}</td>
+      </tr>
+      <tr>
+        <th>Contact</th>
+        <td>{{details.5}}</td>
+      </tr>
+      <tr>
+        <th>Image</th>
+        <td><img style="max-width: 200px;" src="media/artist/profile_pic/{{details.6}}"></td>
+      </tr>
+      <tr>
+        <th>Gender</th>
+        <td>{{details.7}}</td>
+      </tr>
+      <tr>
+        <th>Display Name</th>
+        <td>{{details.8}}</td>
+      </tr>
+      <tr>
+        <th>Gender</th>
+        <td>{{details.9}}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{details.10}}</td>
+      </tr>
+  
+  </table>
+  {% endblock %}

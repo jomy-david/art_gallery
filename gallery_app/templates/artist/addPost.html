@@ -1,0 +1,32 @@
+{% extends 'artist/index.html' %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" style="width: 100%;display: grid;justify-content: center;">
+<table style="width: fit-content;" class="table table-bordered table-dark">
+  
+    <tr>
+      <th>Title</th>
+      <td><input type="text" name="title"></td>
+    </tr>
+    <tr>
+      <th>Category</th>
+      <td><select name="cat">
+        <option disabled selected>select an option</option>
+        {% for i in cat %}
+        <option value="{{i.1}}">{{i.1}}</option>
+        {% endfor %}
+      </select></td>
+    </tr>
+    <tr>
+      <th>Image</th>
+      <td><input type="file" name="img"></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;">
+        <input type="submit" value="POST" class="btn btn-primary">
+        </td>
+    </tr>
+
+</table>
+</form>
+{% endblock %}

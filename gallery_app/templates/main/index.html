@@ -6,10 +6,12 @@
     <meta charset="utf-8">
     <meta name="author" content="templatemo">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    {% block link %}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
     <title>Welcome to Open Gallery</title>
+
+    
 
     <!-- Bootstrap core CSS -->
     <link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,6 +24,8 @@
     <link rel="stylesheet" href="static/main/assets/css/animate.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+    
+    {% endblock %}
   </head>
 
 <body>
@@ -41,11 +45,18 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="./" class="active">Home</a></li>
-                        <li><a href="Gallery">Gallery</a></li>
+                        <li class="has-sub" style="padding-right: 68px;">
+                          <a href="javascript:void(0)">Categories</a>
+                          <ul class="sub-menu">
+                            {% for i in cat %}
+                              <li><a href="Gallery?id={{i.0}}">{{i.1}}</a></li>
+                              {% endfor %}
+                          </ul>
+                      </li>
                     </ul> 
                     {% if user_data %}  
                     <div class="border-button">
-                      <a id="modal_trigger" href="#modal" class="sign-in-up"><i class="fa fa-user"></i> Hi User</a>
+                      <a href="artistHome" class="sign-in-up"><i class="fa fa-user"></i> Hi, {{user_data.1}}</a>
                     </div>
                     {% elif admin_data %}
                     <div class="border-button">
@@ -84,7 +95,7 @@
     </section>
   </div>
 
-
+{% block content %}
   <!-- ***** Main Banner Area Start ***** -->
   <div class="main-banner">
     <div class="container">
@@ -276,8 +287,12 @@
     </div>
   </footer>
 
+  {% endblock %}
+
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
+
+  {% block foot %}
   <script src="static/main/vendor/jquery/jquery.min.js"></script>
   <script src="static/main/vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -287,6 +302,6 @@
   <script src="static/main/assets/js/tabs.js"></script>
   <script src="static/main/assets/js/popup.js"></script>
   <script src="static/main/assets/js/custom.js"></script>
-
+{% endblock %}
   </body>
 </html>
