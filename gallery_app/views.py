@@ -18,7 +18,7 @@ def home(request):
     elif 'artist' in request.session:
         context['user_data']=request.session['artist']
         return render(request,'main/index.html',context)
-    return render(request,'main/index.html')
+    return render(request,'main/index.html',context)
 
 def Gallery(request):
     context = {}
@@ -26,9 +26,9 @@ def Gallery(request):
         id = request.GET['id']
         sql = "select * from category_list"
         context['cat']=connections.selectall(sql)
-        sql = "select * from category_list where cat_id='"+id+"'"
-        cat_details = connections.select(sql)
-    
+        sql = "select * from post_list where cat_id='"+id+"'"
+        post_details = connections.selectall(sql)
+        context['post']=post_details
         if 'admin' in request.session:
             context['admin_data']=request.session['admin']
             return render(request,'main/gallery.html',context)
@@ -114,6 +114,10 @@ def admin(request):
         context['admin']=request.session['admin']
         sql = "select * from artist_list where status=0"
         artist_aprovals = connections.selectall(sql)
+        sql = "select * from post_list where status=0"
+        post_aprovals = connections.selectall(sql)
+        context['post_len']=len(post_aprovals)
+        context['posts']=post_aprovals
         context['aprovals']=artist_aprovals
         context['aprovals_len']=len(artist_aprovals)
         return render(request,'administrator/index.html',context)
@@ -173,6 +177,31 @@ def editGallery(request):
         return render(request,'administrator/categoryEdit.html',context)
     return render(request,'error')
 
+def postAp(request):
+    context ={}
+    if request.session['admin']:
+        context['admin']=request.session['admin']
+        sql = "select * from post_list where status=0"
+        post_aprovals = connections.selectall(sql)
+        context['aprovals']=post_aprovals
+        return render(request,'administrator/postAprovals.html',context)
+    return render(request,'error')
+
+def aprovePost(request):
+    if request.session['admin']:
+        id = request.GET.get('id')
+        sql = "update post_list set status='1' where post_id='"+id+"'"
+        connections.update(sql)
+        return HttpResponseRedirect('postAprovals')
+    return HttpResponseRedirect('error')
+
+def denyPost(request):
+    if request.session['admin']:
+        id = request.GET.get('id')
+        sql = "update post_list set status='2' where post_id='"+id+"'"
+        connections.update(sql)
+        return HttpResponseRedirect('postAprovals')
+    return HttpResponseRedirect('error')
 
 # Artist
 
@@ -180,7 +209,10 @@ def artistHome(request):
     context ={}
     if request.session['artist']:
         context['artist']=request.session['artist']
-        return render(request,'artist/index.html',context)
+        artist = request.session['artist']
+        sql = "select * from post_list where artist_id='"+artist[2]+"'"
+        context['data'] = connections.selectall(sql)
+        return render(request,'artist/myGallery.html',context)
     
 def editArtist(request):
     context ={}
@@ -197,10 +229,21 @@ def addPost(request):
     context={}
     if request.session['artist']:
         context['artist']=request.session['artist']
+        artist_data = request.session['artist']
         sql = "select * from category_list"
         context['cat']=connections.selectall(sql)
         if request.POST:
             title = request.POST.get('title')
+            cat = request.POST.get('cat')
+            cat_id = connections.select("select cat_id from category_list where name='"+cat+"'")
+            cat_id = str(cat_id[0])
+            fs = FileSystemStorage()
+            image = request.FILES['img']
+            image_name = artist_data[1]+str(randint(1,10000))+image.name
+            sql = "insert into post_list(file_name,artist_name,artist_id,category,cat_id,status,title)values('"+image_name+"','"+artist_data[1]+"','"+artist_data[2]+"','"+cat+"','"+cat_id+"','0','"+title+"')"
+            connections.insert(sql)
+            fs.save("artist/uploads/"+image_name,image)
+            return HttpResponseRedirect('artistHome')
         return render(request,'artist/addPost.html',context)
 
 # Error Page
@@ -209,5 +252,7 @@ def error(request):
 
 def test(request):
     sql = "select * from category_list"
-    admin=connections.selectall(sql)
+    cat_id=2
+    sql = "insert into test(new_id)values('"+cat_id+"')"
+    connections.insert(sql)
     return render(request,'test.html',{'admin':admin})

@@ -13,11 +13,15 @@ urlpatterns=[
     path('aproveArtist',views.aproveArtist),
     path('denyArtist',views.denyArtist),
     path('viewArtist',views.viewArtist),
+    path('postAprovals',views.postAp),
+    path('aprovePost',views.aprovePost),
+    path('denyPost',views.denyPost),
     path('editGallery',views.editGallery),
     path('artistHome',views.artistHome),
     path('artistEdit',views.editArtist),
     path('addPost',views.addPost),
     path('error',views.error),
     path('test',views.test),
+
     
 ]

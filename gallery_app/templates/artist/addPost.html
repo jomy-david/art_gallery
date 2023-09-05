@@ -1,7 +1,8 @@
-{% extends 'artist/index.html' %}
+{% extends 'artist/myGallery.html' %}
 
 {% block content %}
 <form method="post" enctype="multipart/form-data" style="width: 100%;display: grid;justify-content: center;">
+  {% csrf_token %}
 <table style="width: fit-content;" class="table table-bordered table-dark">
   
     <tr>

@@ -1,0 +1,31 @@
+{% extends 'administrator/index.html' %}
+                {% block content %}
+                <p style="width: 100%;"><h1 style="text-align: center;text-decoration: underline;">Aprovals Pending</h1></p>
+                <section class="ap-table" >
+                    <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Post</th>
+                            <th scope="col">Artist ID</th>
+                            <th scope="col">Category</th>
+                            <th scope="col" colspan="2" style="text-align: center;">Actions</th>
+                          </tr>
+                        </thead>
+                        {% if aprovals %}
+                        <tbody>
+                            {% for i in aprovals %}
+                          <tr>
+                            <td><img style="width: 300px;height: auto;" src="media/artist/uploads/{{i.1}}"></td>
+                            <td>{{i.3}}</td>
+                            <td>{{i.4}}</td>
+                            <td><a href="aprovePost?id={{i.0}}" style="color: black;">Aprove</a></td>
+                            <td><a href="denyPost?id={{i.0}}" style="color: black;">Deny</a></td>
+                          </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
+                      </table>
+                </section>
+                
+             {% endblock %}
+ 
