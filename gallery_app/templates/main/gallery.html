@@ -9,6 +9,7 @@
 
 <link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
 <link rel="stylesheet" href="static/main/assets/css/gallery.css">
+<link rel="stylesheet" href="static/main/assets/css/post.css">
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="static/main/assets/css/owl.css">
     <link rel="stylesheet" href="static/main/assets/css/animate.css">
@@ -25,32 +26,26 @@
     <div class="container-lg">
         <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3">
           {% for i in post %}
-            <div class="col items">
+          <a style="text-decoration: none;color: black;" href="viewPost?id={{i.0}}">
+            <div id="{{i.0}}" class="col items" onclick="">
                 <img src="media/artist/uploads/{{i.1}}" class="gallery-item" alt="Gallery1">
                 <span class="details">{{i.2}}</span>
                 <span class="title">{{i.7}}</span>
               <span class="likes"><i class="fa fa-heart"></i> 256</span>
             </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
+          </a>
+        
+   
 
 <!-- Modal -->
-<div class="modal fade" id="gallery-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered modal-lg">
-<div class="modal-content">
-  <div class="modal-header">
-    <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  </div>
-  <div class="modal-body">
-    <img src="images/1.jpg" class="modal-img" alt="Modal Image">
-  </div>
-</div>
-</div>
-</div>
 
+
+
+
+{% endfor %}
+</div>
+</div>
+</section>
 
 {% endblock %}
 
@@ -58,21 +53,9 @@
 <script src="static/main/vendor/jquery/jquery.min.js"></script>
 <script src="static/main/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-    document.addEventListener("click",function (e){
-      if(e.target.classList.contains("gallery-item")){
-            const src = e.target.getAttribute("src");
-            document.querySelector(".modal-img").src = src;
-            const myModal = new bootstrap.Modal(document.getElementById('gallery-popup'));
-            myModal.show();
-      }
-    })
-</script>
-
 <script src="static/main/assets/js/isotope.min.js"></script>
 <script src="static/main/assets/js/owl-carousel.js"></script>
 
 <script src="static/main/assets/js/tabs.js"></script>
-<script src="static/main/assets/js/popup.js"></script>
 <script src="static/main/assets/js/custom.js"></script>
 {% endblock %}

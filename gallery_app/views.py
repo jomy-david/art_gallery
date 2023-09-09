@@ -39,6 +39,59 @@ def Gallery(request):
             return render(request,'main/gallery.html',context)
     return HttpResponseRedirect('error')
 
+def post(request):
+    context={}
+    
+    if request.session.keys():
+        if request.GET.get('id'):
+            id = request.GET['id']
+            sql = "select * from category_list"
+            context['cat']=connections.selectall(sql)
+            sql = "select * from post_list where post_id='"+id+"'"
+            post_details = connections.select(sql)
+            context['post']=post_details
+            sql = "select user_id from like_list where post_id='"+id+"'"
+            post_like = connections.selectall(sql)
+            context['likes']=len(post_like)
+            if 'admin' in request.session:
+                context['admin_data']=request.session['admin']
+                if request.session['admin'][1] in post_like:
+                    context['like'] = True
+                else:
+                    context['like'] = False
+                return render(request,'main/post.html',context)
+            elif 'artist' in request.session:
+                context['user_data']=request.session['artist']
+                if request.session['artist'][2] in post_like:
+                    context['like'] = True
+                else:
+                    context['like'] = False
+                return render(request,'main/post.html',context)
+            else:
+                return render(request,'main/post.html',context)
+    
+    return HttpResponseRedirect('Login')
+
+def likePost(request):
+    context={}
+    if request.GET.get('id'):
+        post_id = str(request.GET['id'])
+        if 'artist' in request.session.keys():
+            user_id = request.session['artist'][2]
+        elif 'admin' in request.session.key():
+            user_id = request.session['admin'][1]
+        else:
+            return HttpResponseRedirect('Login')
+        sql = "select * from like_list where post_id='"+post_id+"' and user_id='"+user_id+"'"
+        like = connections.select(sql)
+        if like:
+            sql = "delete from like_list where post_id='"+post_id+"' and user_id='"+user_id+"'"
+            connections.delete(sql)
+        else:
+            sql = "insert into like_list(user_id,post_id)values('"+user_id+"','"+post_id+"')"
+            connections.insert(sql)
+        return HttpResponseRedirect('viewPost?id='+post_id)
+
 # Registration and login
 
 def register(request):

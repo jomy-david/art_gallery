@@ -375,7 +375,6 @@ Header Style
         background-color: #f7f7f7;
         padding: 0px 15px;
         height: 100px;
-        box-shadow: none;
         text-align: center;
     }
 
@@ -448,7 +447,6 @@ Header Style
         transform: translateY(0%);
         top: 0px;
         width: 100%;
-        box-shadow: none;
         height: 0px;
         transition: all 0s;
     }

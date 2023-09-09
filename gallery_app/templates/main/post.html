@@ -1,0 +1,57 @@
+{% extends 'main/index.html' %}
+
+{% block link %}
+
+<title>Gallery</title>
+
+<!-- Bootstrap core CSS -->
+<link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+<link rel="stylesheet" href="static/main/assets/css/post.css">
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="static/main/assets/css/owl.css">
+    <link rel="stylesheet" href="static/main/assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="static/main/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="static/main/assets/css/templatemo-snapx-photography.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="post container modal-img">
+    <div class="info">
+        <div class="user">
+            <div class="profile-pic"><img src="media/artist/profile_pic/jomy1933620230530_144848 edit.jpg" alt=""></div>
+            <p class="username">{{post.2}}</p>
+        </div>
+        
+    </div>
+    <img src="media/artist/uploads/{{post.1}}" class="post-image" alt="">
+    <div class="post-content">
+        <div class="reaction-wrapper">            
+            <a href="likePost?id={{post.0}}">
+               {% if like %}
+                <i class="icon fa fa-heart" ><sub>Likes</sub></i>
+                {% else %}
+                <i class="icon fa fa-regular fa-heart" ><sub>{{likes}}</sub></i>
+               {% endif %}     
+                </a>
+            <a href=""><i class="icon fa fa-regular fa-comment" ><sub>Comment</sub></i></a>
+            <!-- <a href=""><i class="icon fa fa-heart" ></i></a>
+            <a href=""><i class="icon fa fa-heart" ></i></a> -->
+            
+        </div>
+        <div style="text-align: left;">
+        <p class="description"><span>{{post.3}} </span> {{post.7}}</p>
+        </div>
+    </div>
+    <div class="comment-wrapper">
+        
+        <input type="text" class="comment-box" placeholder="Add a comment">
+        <button class="comment-btn">post</button>
+    </div>
+</div>
+</div>
+
+{% endblock %}
