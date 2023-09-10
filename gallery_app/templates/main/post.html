@@ -37,7 +37,7 @@
                 <i class="icon fa fa-regular fa-heart" ><sub>{{likes}}</sub></i>
                {% endif %}     
                 </a>
-            <a href=""><i class="icon fa fa-regular fa-comment" ><sub>Comment</sub></i></a>
+            <a href=""><i class="icon fa fa-regular fa-comment" ><sub>{{post.9}}</sub></i></a>
             <!-- <a href=""><i class="icon fa fa-heart" ></i></a>
             <a href=""><i class="icon fa fa-heart" ></i></a> -->
             
@@ -45,6 +45,11 @@
         <div style="text-align: left;">
         <p class="description"><span>{{post.3}} </span> {{post.7}}</p>
         </div>
+    </div>
+    <div style="text-align: left;" class="comment-show">
+        {% for j in comments %}
+        <p class="description"><span>{{j.2}} </span> {{j.3}}</p>
+        {% endfor %}
     </div>
     <form method="get" action="addComment">
     <div class="comment-wrapper">

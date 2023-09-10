@@ -55,6 +55,13 @@ def post(request):
             likes_count=str(len(post_like))
             sql = "update post_list set likes='"+likes_count+"' where post_id='"+id+"'"
             connections.update(sql)
+            sql = "select * from comments where post_id='"+id+"'"
+            comments = connections.selectall(sql)
+            context['comments']=comments
+            comment_count=str(len(comments))
+            print(comment_count)
+            sql = "update post_list set comments='"+comment_count+"' where post_id='"+id+"'"
+            connections.update(sql)
             context['likes']=likes_count
             if 'admin' in request.session:
                 context['admin_data']=request.session['admin']
