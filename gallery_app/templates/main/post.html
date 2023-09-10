@@ -46,11 +46,13 @@
         <p class="description"><span>{{post.3}} </span> {{post.7}}</p>
         </div>
     </div>
+    <form method="get" action="addComment">
     <div class="comment-wrapper">
         
-        <input type="text" class="comment-box" placeholder="Add a comment">
-        <button class="comment-btn">post</button>
+        <input type="text" name="comment" class="comment-box" placeholder="Add a comment">
+        <button type="submit" value="{{post.0}}" name="post" class="comment-btn">Post</button>
     </div>
+</form>
 </div>
 </div>
 

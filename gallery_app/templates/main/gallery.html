@@ -26,15 +26,16 @@
     <div class="container-lg">
         <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3">
           {% for i in post %}
+          {% if i.6 == 1 %}
           <a style="text-decoration: none;color: black;" href="viewPost?id={{i.0}}">
             <div id="{{i.0}}" class="col items" onclick="">
                 <img src="media/artist/uploads/{{i.1}}" class="gallery-item" alt="Gallery1">
                 <span class="details">{{i.2}}</span>
                 <span class="title">{{i.7}}</span>
-              <span class="likes"><i class="fa fa-heart"></i> 256</span>
+              <span class="likes"><i class="fa fa-heart"></i> {{i.8}}</span>
             </div>
           </a>
-        
+        {% endif %}
    
 
 <!-- Modal -->

@@ -52,7 +52,10 @@ def post(request):
             context['post']=post_details
             sql = "select user_id from like_list where post_id='"+id+"'"
             post_like = connections.selectall(sql)
-            context['likes']=len(post_like)
+            likes_count=str(len(post_like))
+            sql = "update post_list set likes='"+likes_count+"' where post_id='"+id+"'"
+            connections.update(sql)
+            context['likes']=likes_count
             if 'admin' in request.session:
                 context['admin_data']=request.session['admin']
                 if request.session['admin'][1] in post_like:
@@ -91,6 +94,29 @@ def likePost(request):
             sql = "insert into like_list(user_id,post_id)values('"+user_id+"','"+post_id+"')"
             connections.insert(sql)
         return HttpResponseRedirect('viewPost?id='+post_id)
+    
+def addComment(request):
+    context={}
+    if request.GET.get('post'):
+        post_id = str(request.GET.get('post'))
+        comment = request.GET.get('comment')
+        if 'artist' in request.session.keys():
+            user_id = request.session['artist'][2]
+        elif 'admin' in request.session.key():
+            user_id = request.session['admin'][1]
+        else:
+            return HttpResponseRedirect('Login')
+        # Comment Check for spam
+        sql = "select * from comments where user_id='"+user_id+"' and post_id='"+post_id+"' and comment='"+comment+"'"
+        spam_check = connections.select(sql)
+
+        if spam_check:
+            return HttpResponseRedirect('viewPost?id='+post_id)
+        else:
+            sql = "insert into comments(post_id,user_id,comment,spam)values('"+post_id+"','"+user_id+"','"+comment+"','0')"
+            connections.insert(sql)
+            return HttpResponseRedirect('viewPost?id='+post_id)
+
 
 # Registration and login
 
@@ -136,15 +162,13 @@ def login(request):
                     sql = "select * from artist_list where artist_id = '"+user_name+"'"
                     user_data = connections.select(sql)
                     request.session['artist']=user_data
-                    context['user_data']=user_data
-                    return render(request,'main/index.html',context)
+                    return HttpResponseRedirect('home')
                 elif user[2]=='admin':
                     request.session['admin']=user
                     return HttpResponseRedirect('administrator')
                 elif user[2]=='user' and user[3]==1:
                     request.session['user']=user
-                    context['user_data']=user
-                    return render(request,'main/index.html',context)
+                    return HttpResponseRedirect('home')
                 else:
                     return render(request,'main/login.html',{'error':"Invalid Credentials"})
             else:

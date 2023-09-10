@@ -8,6 +8,7 @@ urlpatterns=[
     path('Gallery',views.Gallery),
     path('viewPost',views.post),
     path('likePost',views.likePost),
+    path('addComment',views.addComment),
     # Admin
     path('administrator',views.admin),
     path('register',views.register),
