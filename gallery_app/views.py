@@ -297,6 +297,31 @@ def artistHome(request):
         sql = "select * from post_list where artist_id='"+artist[2]+"'"
         context['data'] = connections.selectall(sql)
         return render(request,'artist/myGallery.html',context)
+
+def artistProfile(request):
+    context={}
+    if request.GET.get('id'):
+        id = request.GET.get('id')
+        sql = "select * from category_list"
+        context['cat']=connections.selectall(sql)
+        sql = "select * from post_list where artist_id='"+id+"' and status='1'"
+        gallery = connections.selectall(sql)
+        context['gallery']=gallery
+        context['len_gallery']=len(gallery)
+        sql = "select * from artist_list where artist_id='"+id+"'"
+        artist_data = connections.select(sql)
+        context['artist_data']=artist_data
+        if 'admin' in request.session:
+            context['admin_data']=request.session['admin']
+            return render(request,'artist/myProfile.html',context)
+        elif 'artist' in request.session:
+            context['user_data']=request.session['artist']
+            return render(request,'artist/myProfile.html',context)
+        else:
+            return render(request,'artist/myProfile.html',context)
+    else:
+        return HttpResponseRedirect('error')
+    
     
 def editArtist(request):
     context ={}

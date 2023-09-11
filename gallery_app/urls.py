@@ -25,6 +25,7 @@ urlpatterns=[
     # Artist
     path('artistHome',views.artistHome),
     path('artistEdit',views.editArtist),
+    path('ArtistPage',views.artistProfile),
     path('addPost',views.addPost),
     # Others
     path('error',views.error),

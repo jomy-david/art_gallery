@@ -1,0 +1,112 @@
+{% extends 'main/index.html' %}
+
+{% block link %}
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+<link rel="stylesheet" href="static/artist/css/artistBody.css">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="static/main/assets/css/owl.css">
+    <link rel="stylesheet" href="static/main/assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="static/main/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="static/main/assets/css/templatemo-snapx-photography.css">
+{% endblock %}
+
+{% block content %}
+<section>
+<div class="container main-container">
+
+    <div class="profile">
+
+        <div class="profile-image">
+
+            <img src="media/artist/profile_pic/{{artist_data.6}}" alt="">
+
+        </div>
+
+        <div class="profile-user-settings">
+
+            <h1 class="profile-user-name">{{artist_data.2}}</h1>
+
+            <a href="artistEdit"><button class="btn profile-edit-btn">Edit Profile</button></a>
+
+            <a href="artistHome"><button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button></a>
+
+        </div>
+
+        <div class="profile-stats">
+
+            <ul>
+                <li><span class="profile-stat-count">{{len_gallery}}</span> posts</li>
+                <li><span class="profile-stat-count">188</span> followers</li>
+                
+            </ul>
+
+        </div>
+
+        <div class="profile-bio">
+
+            <p><span class="profile-real-name">{{artist_data.1}}</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+
+        </div>
+
+    </div>
+    <!-- End of profile section -->
+
+</div>
+<!-- End of container -->
+
+</section>
+
+<section>
+
+<div class="container main-container gallery-container">
+
+    <div class="gallery">
+
+        {% for post in gallery %}
+        <a href="viewPost?id={{post.0}}">
+        <div class="gallery-item" tabindex="0">
+
+            <img src="media/artist/uploads/{{post.1}}" class="gallery-image" alt="">
+
+            <div class="gallery-item-info">
+
+                <ul>
+                    <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>{{post.8}} </li>
+                    <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>{{post.9}} </li>
+                </ul>
+
+            </div>
+
+        </div>
+        </a>
+        {% endfor %}
+
+    </div>
+    <!-- End of gallery -->
+
+
+</div>
+
+</section>
+
+{% endblock %}
+
+{% block foot %}
+<script src="static/main/vendor/jquery/jquery.min.js"></script>
+<script src="static/main/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="static/main/assets/js/isotope.min.js"></script>
+<script src="static/main/assets/js/owl-carousel.js"></script>
+
+<script src="static/main/assets/js/tabs.js"></script>
+<script src="static/main/assets/js/popup.js"></script>
+<script src="static/main/assets/js/custom.js"></script>
+{% endblock %}
