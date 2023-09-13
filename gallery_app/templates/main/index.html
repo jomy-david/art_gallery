@@ -54,9 +54,13 @@
                           </ul>
                       </li>
                     </ul> 
-                    {% if user_data %}  
+                    {% if user_data.2 == "artist" %}  
                     <div class="border-button">
                       <a href="artistHome" class="sign-in-up"><i class="fa fa-user"></i> Hi, {{user_data.1}}</a>
+                    </div>
+                    {% elif user_data.2 == "user" %}  
+                    <div class="border-button">
+                      <a href="userHome" class="sign-in-up"><i class="fa fa-user"></i> Hi, {{user_data.1}}</a>
                     </div>
                     {% elif admin_data %}
                     <div class="border-button">
@@ -105,9 +109,9 @@
             <h2>Explore a world of <em>Art</em></h2>
             
             <div class="buttons">
-              <div class="big-border-button">
-                <a href="static/main/contests.html">Explore Our Gallery</a>
-              </div>
+              <!-- <div class="big-border-button">
+                <a href="Gallery">Explore Our Gallery</a>
+              </div> -->
               
             </div>
           </div>
@@ -123,20 +127,22 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="owl-features owl-carousel" style="position: relative; z-index: 5;">
+            {% for post in top_likes %}
             <div class="item">
               <div class="thumb">
-                <img src="static/main/assets/images/featured-01.jpg" alt="">
+                <img src="media/artist/uploads/{{post.1}}" alt="">
                 <div class="hover-effect">
                   <div class="content">
-                    <h4>Title</h4>
+                    <h4>{{post.7}}</h4>
                     <ul>
-                      <li><span>Artist Name :</span> Vincent Adam</li>
-                      <li><span>Likes:</span> Anthony Soft <i class="fa fa-heart"></i></li>
+                      <li><span>Artist Name :</span> {{post.2}}</li>
+                      <li><span>Likes:</span> {{post.8}} <i class="fa fa-heart"></i></li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
+            {% endfor %}
             <!-- <div class="item">
               <div class="thumb">
                 <img src="static/main/assets/images/featured-02.jpg" alt="">
@@ -171,29 +177,36 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="main-button">
+          <!-- <div class="main-button">
             <a href="static/main/categories.html">Discover All Categories</a>
-          </div>
+          </div> -->
         </div>
       </div>
       <section class="cat-items">
+        {% for i in cat %}
+        {% if i.2 %}
         <article class="row" style="margin-bottom: 70px;padding-left: 40px;font-size: 30px;color: #00bdfe;font-weight: 700;">
-          Nature
+          {{i.1}}
         </article>
         <div class="container contain">
+          {% for post in posts %}
+          {% if post.5 == i.0 %}
           <div class="popular-item">
-            <div class="thumb row">
-              <img src="static/main/assets/images/popular-01.png" alt="">
-              <span class="category">Artist Name</span>
-              <span class="likes"><i class="fa fa-heart"></i> 256</span>
+            <div class="thumb col">
+              <img src="media/artist/uploads/{{post.1}}" alt="">
+              <span class="category">{{post.2}}</span>
+              <span class="likes"><i class="fa fa-heart"></i> {{post.8}}</span>
             </div>
           </div>
         
-               
+          {% endif %} 
+          {% endfor %}
     </div>
     <div class="border-button row">
-      <a href="static/main/contest-details.html">Browse Nature Pic Contests</a>
+      <a href="Gallery?id={{i.0}}">Browse {{i.1}} Pics</a>
     </div>
+    {% endif %}
+    {% endfor %}
       </section>
   </section>
 <!-- End Of Catagories -->

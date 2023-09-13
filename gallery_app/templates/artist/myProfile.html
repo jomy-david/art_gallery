@@ -2,7 +2,7 @@
 
 {% block link %}
 
-<title></title>
+<title>{{artist_data.1}}</title>
 
 <!-- Bootstrap core CSS -->
 <link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,11 +33,11 @@
         <div class="profile-user-settings">
 
             <h1 class="profile-user-name">{{artist_data.2}}</h1>
-
+            {% if user_data.1 == artist_data.2 %}
             <a href="artistEdit"><button class="btn profile-edit-btn">Edit Profile</button></a>
 
             <a href="artistHome"><button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button></a>
-
+            {% endif %}
         </div>
 
         <div class="profile-stats">

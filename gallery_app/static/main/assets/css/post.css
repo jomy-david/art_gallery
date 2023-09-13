@@ -84,14 +84,17 @@
     line-height: 20px;
 }
 
-.description span {
+td {
+    padding: 4px;
+}
+
+.description .id {
     font-weight: bold;
     margin-right: 10px;
 }
 
 .post-time {
     color: rgba(0, 0, 0, 0.5);
-    font-size: 12px;
 }
 
 .comment-wrapper {
@@ -157,4 +160,5 @@
     height: 200px;
     width: 100%;
     overflow-y: scroll;
+
 }

@@ -10,13 +10,27 @@ from random import randint
 
 def home(request):
     context = {}
+    # Category Select For navbar
     sql = "select * from category_list"
     context['cat']=connections.selectall(sql)
+    # Top 3 Liked
+    sql = "select * from post_list where status='1' order by likes desc"
+    top_likes = connections.selectall(sql)
+    # home Page Posts
+    sql = "select * from post_list where status='1'"
+    context['posts']=connections.selectall(sql)
+    if len(top_likes)>3:
+        context['top_like']=top_likes[0:3]
+    else:
+        context['top_likes']=top_likes
     if 'admin' in request.session:
         context['admin_data']=request.session['admin']
         return render(request,'main/index.html',context)
     elif 'artist' in request.session:
         context['user_data']=request.session['artist']
+        return render(request,'main/index.html',context)
+    elif 'user' in request.session:
+        context['user_data']=request.session['user']
         return render(request,'main/index.html',context)
     return render(request,'main/index.html',context)
 
@@ -34,6 +48,9 @@ def Gallery(request):
             return render(request,'main/gallery.html',context)
         elif 'artist' in request.session:
             context['user_data']=request.session['artist']
+            return render(request,'main/gallery.html',context)
+        elif 'user' in request.session:
+            context['user_data']=request.session['user']
             return render(request,'main/gallery.html',context)
         else:
             return render(request,'main/gallery.html',context)
@@ -59,7 +76,6 @@ def post(request):
             comments = connections.selectall(sql)
             context['comments']=comments
             comment_count=str(len(comments))
-            print(comment_count)
             sql = "update post_list set comments='"+comment_count+"' where post_id='"+id+"'"
             connections.update(sql)
             context['likes']=likes_count
@@ -72,7 +88,14 @@ def post(request):
                 return render(request,'main/post.html',context)
             elif 'artist' in request.session:
                 context['user_data']=request.session['artist']
-                if request.session['artist'][2] in post_like:
+                if request.session['artist'][1] in post_like:
+                    context['like'] = True
+                else:
+                    context['like'] = False
+                return render(request,'main/post.html',context)
+            elif 'user' in request.session:
+                context['user_data']=request.session['user']
+                if request.session['user'][1] in post_like:
                     context['like'] = True
                 else:
                     context['like'] = False
@@ -87,9 +110,11 @@ def likePost(request):
     if request.GET.get('id'):
         post_id = str(request.GET['id'])
         if 'artist' in request.session.keys():
-            user_id = request.session['artist'][2]
-        elif 'admin' in request.session.key():
+            user_id = request.session['artist'][1]
+        elif 'admin' in request.session.keys():
             user_id = request.session['admin'][1]
+        elif 'user' in request.session.keys():
+            user_id = request.session['user'][1]
         else:
             return HttpResponseRedirect('Login')
         sql = "select * from like_list where post_id='"+post_id+"' and user_id='"+user_id+"'"
@@ -108,9 +133,11 @@ def addComment(request):
         post_id = str(request.GET.get('post'))
         comment = request.GET.get('comment')
         if 'artist' in request.session.keys():
-            user_id = request.session['artist'][2]
-        elif 'admin' in request.session.key():
+            user_id = request.session['artist'][1]
+        elif 'admin' in request.session.keys():
             user_id = request.session['admin'][1]
+        elif 'user' in request.session.keys():
+            user_id = request.session['user'][1]
         else:
             return HttpResponseRedirect('Login')
         # Comment Check for spam
@@ -133,6 +160,10 @@ def register(request):
             if request.POST.get("password")==request.POST.get("c_password"):
                 name = request.POST.get("name")
                 id = request.POST.get("artist_id")
+                sql = "select artist_id from artist_list where artist_id='"+id+"'"
+                check_id = connections.select(sql)
+                if check_id:
+                    return render(request,'main/register.html',{'error':"Id Already Exits"})
                 d_name = request.POST.get("d_name")
                 email = request.POST.get("email")
                 contact = request.POST.get("contact")
@@ -148,7 +179,20 @@ def register(request):
                 sql = "insert into logintb(user_id,user_type,status,password)values('"+id+"','artist','0','"+password+"')"
                 connections.insert(sql)
                 return render(request,'main/login.html',{'msg':"Registration Successful"})
-            else:
+            
+        elif request.POST.get("submit")=="user":
+            if request.POST.get("password")==request.POST.get("c_password"):
+                name = request.POST.get("name")
+                id = request.POST.get("user_id")
+                email = request.POST.get("email")
+                contact = request.POST.get("contact")
+                gender = request.POST.get("gender")
+                password = request.POST.get("password")
+                image_name="blank-profile-picture-973460_1280.png"
+                sql = "insert into user_list(name,user_id,email,password,contact,profile_pic,gender,status)values('"+name+"','"+id+"','"+email+"','"+password+"','"+contact+"','"+image_name+"','"+gender+"','1')"
+                connections.insert(sql)
+                sql = "insert into logintb(user_id,user_type,status,password)values('"+id+"','user','1','"+password+"')"
+                connections.insert(sql)
                 return render(request,'main/login.html',{'msg':"Registration Successful"})
     return render(request,'main/register.html')
 
@@ -156,6 +200,8 @@ def login(request):
     if 'admin' in request.session.keys():
         return HttpResponseRedirect('home')
     elif 'artist' in request.session.keys():
+        return HttpResponseRedirect('home')
+    elif 'user' in request.session.keys():
         return HttpResponseRedirect('home')
     else:
         context={}
@@ -166,14 +212,12 @@ def login(request):
             user = connections.select(sql)
             if user:
                 if user[2]=='artist' and user[3]==1:
-                    sql = "select * from artist_list where artist_id = '"+user_name+"'"
-                    user_data = connections.select(sql)
-                    request.session['artist']=user_data
+                    request.session['artist']=user
                     return HttpResponseRedirect('home')
                 elif user[2]=='admin':
                     request.session['admin']=user
                     return HttpResponseRedirect('administrator')
-                elif user[2]=='user' and user[3]==1:
+                elif user[2]=='user':
                     request.session['user']=user
                     return HttpResponseRedirect('home')
                 else:
@@ -187,6 +231,8 @@ def logout(request):
         del request.session['artist']
     elif 'admin' in request.session.keys():
         del request.session['admin']
+    elif 'user' in request.session.keys():
+        del request.session['user']
     return HttpResponseRedirect('home')
 
 
@@ -257,9 +303,30 @@ def editGallery(request):
         context['admin']=request.session['admin']
         sql = "select * from category_list"
         category_details = connections.selectall(sql)
+        print(category_details)
         context['category']=category_details
         return render(request,'administrator/categoryEdit.html',context)
     return render(request,'error')
+
+def delCat(request):
+    context={}
+    if request.session['admin']:
+        if request.GET.get('id'):
+            did = request.GET.get('id')
+            sql = "select posts from category_list where cat_id='"+did+"'"
+            post_check = connections.select(sql)
+            
+            if post_check[0]>0:               
+                context['admin']=request.session['admin']
+                sql = "select * from category_list"
+                category_details = connections.selectall(sql)
+                context['category']=category_details
+                context['msg']="Cannot Delete Categories containing posts"
+                return render(request,'administrator/categoryEdit.html',context)
+            else:
+                sql = "delete from category_list where cat_id='"+did+"'"
+                connections.delete(sql)
+                return HttpResponseRedirect('editGallery')
 
 def postAp(request):
     context ={}
@@ -292,9 +359,10 @@ def denyPost(request):
 def artistHome(request):
     context ={}
     if request.session['artist']:
-        context['artist']=request.session['artist']
-        artist = request.session['artist']
-        sql = "select * from post_list where artist_id='"+artist[2]+"'"
+        id = request.session['artist'][1]
+        sql = "select * from artist_list where artist_id='"+id+"'"
+        context['artist']=connections.select(sql)
+        sql = "select * from post_list where artist_id='"+id+"'"
         context['data'] = connections.selectall(sql)
         return render(request,'artist/myGallery.html',context)
 
@@ -317,6 +385,9 @@ def artistProfile(request):
         elif 'artist' in request.session:
             context['user_data']=request.session['artist']
             return render(request,'artist/myProfile.html',context)
+        elif 'user' in request.session:
+            context['user_data']=request.session['user']
+            return render(request,'artist/myProfile.html',context)
         else:
             return render(request,'artist/myProfile.html',context)
     else:
@@ -326,7 +397,7 @@ def artistProfile(request):
 def editArtist(request):
     context ={}
     if request.session['artist']:
-        id = request.session['artist'][2]
+        id = request.session['artist'][1]
         context['artist']=request.session['artist']
         sql = "select * from artist_list where artist_id='"+id+"'"
         artist_details = connections.select(sql)
@@ -337,8 +408,12 @@ def editArtist(request):
 def addPost(request):
     context={}
     if request.session['artist']:
-        context['artist']=request.session['artist']
-        artist_data = request.session['artist']
+        id = request.session['artist'][1]
+        sql = "select * from artist_list where artist_id='"+id+"'"
+        context['artist']=connections.select(sql)
+        artistid = request.session['artist'][1]
+        sql = "select * from artist_list where artist_id='"+artistid+"'"
+        artist_data = connections.select(sql)
         sql = "select * from category_list"
         context['cat']=connections.selectall(sql)
         if request.POST:
@@ -354,14 +429,25 @@ def addPost(request):
             fs.save("artist/uploads/"+image_name,image)
             return HttpResponseRedirect('artistHome')
         return render(request,'artist/addPost.html',context)
+    
+
+# User
+
+def userHome(request):
+    context={}
+    try:
+        if request.session['user']:
+            sql = "select * from user_list where user_id='"+request.session['user'][1]+"'"
+            data = connections.select(sql)
+            context['user']=data
+            return render(request,'user/index.html',context)
+    except:
+        return render(request,'login.html')
 
 # Error Page
 def error(request):
     return render(request,'404_error.html')
 
 def test(request):
-    sql = "select * from category_list"
-    cat_id=2
-    sql = "insert into test(new_id)values('"+cat_id+"')"
-    connections.insert(sql)
-    return render(request,'test.html',{'admin':admin})
+    if request.session['user']:
+        print("ok")

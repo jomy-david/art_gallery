@@ -48,14 +48,20 @@
         </div>
     </div>
     <div style="text-align: left;" class="comment-show">
+        <table>
         {% for j in comments %}
-        <p class="description"><span>{{j.2}} </span> {{j.3}}</p>
+        <tr>
+            <td>
+        <p class="description"><td class="id"><span>{{j.2}} </span> </td>
+            <td class="post-time">{{j.3}}</p></td>
+        </tr>
         {% endfor %}
+        </table>
     </div>
     <form method="get" action="addComment">
     <div class="comment-wrapper">
         
-        <input type="text" name="comment" class="comment-box" placeholder="Add a comment">
+        <input type="text" name="comment" class="comment-box" placeholder="Add a comment" maxlength="60">
         <button type="submit" value="{{post.0}}" name="post" class="comment-btn">Post</button>
     </div>
 </form>

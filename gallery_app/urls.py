@@ -22,11 +22,14 @@ urlpatterns=[
     path('aprovePost',views.aprovePost),
     path('denyPost',views.denyPost),
     path('editGallery',views.editGallery),
+    path('delCat',views.delCat),
     # Artist
     path('artistHome',views.artistHome),
     path('artistEdit',views.editArtist),
     path('ArtistPage',views.artistProfile),
     path('addPost',views.addPost),
+    # User
+    path('userHome',views.userHome),
     # Others
     path('error',views.error),
     path('test',views.test),
