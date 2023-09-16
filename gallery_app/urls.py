@@ -30,6 +30,7 @@ urlpatterns=[
     path('addPost',views.addPost),
     # User
     path('userHome',views.userHome),
+    path('userEdit',views.editUser),
     # Others
     path('error',views.error),
     path('test',views.test),

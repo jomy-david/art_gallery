@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Hi, {{user.1}}</a> 
+                <a class="navbar-brand" href="">Hi, {{user.1}}</a> 
             </div>
   
         </nav>   
@@ -43,7 +43,7 @@
                         <a   href="home"><i class="fa fa-home fa-3x"></i> Home</a>
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-gear fa-3x"></i> Edit Profile</a>
+                        <a href="userEdit"><i class="fa fa-gear fa-3x"></i> Edit Profile</a>
                     </li>
                     <li>
                         <a  href="addPost"><i class="fa fa-plus fa-3x"></i> Add Post</a>
@@ -97,20 +97,13 @@
             {% block content %}
                 <section class="grid">
                     {% for i in data %}
+                    <a href="viewPost?id={{i.0}}">
                     <div class="grid-item">
-                        {% if i.6 == 0 %}
-                        <span class="status">Pending</span>
-                        <img style="opacity: 0.6;" src="media/artist/uploads/{{i.1}}">
-
-                        {% elif i.6 == 2 %}
-                        <span class="status">Rejected</span>
-                        <img style="opacity: 0.6;" src="media/artist/uploads/{{i.1}}">
                         
-                        {% else %}
                         <img src="media/artist/uploads/{{i.1}}">
-                        {% endif %}
-                        
+                     
                     </div>
+                </a>
                     {% endfor %}
                 </section>
             {% endblock %}

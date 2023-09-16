@@ -19,11 +19,11 @@
 
 {% block content %}
 
-<div class="post container modal-img">
+<div class="post container modal-img" style="border: 1px solid black;">
     <div class="info">
         <a href="ArtistPage?id={{post.3}}">
         <div class="user">
-            <div class="profile-pic"><img src="media/artist/profile_pic/jomy1933620230530_144848 edit.jpg" alt=""></div>
+            <div class="profile-pic"><img src="media/artist/profile_pic/{{artist_data.6}}" alt=""></div>
             <p class="username">{{post.2}}</p>
         </div>
         </a>
@@ -44,13 +44,13 @@
             
         </div>
         <div style="text-align: left;">
-        <p class="description"><span>{{post.3}} </span> {{post.7}}</p>
+        <p class="description"><span class="id">{{post.3}} </span> {{post.7}}</p>
         </div>
     </div>
     <div style="text-align: left;" class="comment-show">
         <table>
         {% for j in comments %}
-        <tr>
+        <tr style="border: 1px solid black;">
             <td>
         <p class="description"><td class="id"><span>{{j.2}} </span> </td>
             <td class="post-time">{{j.3}}</p></td>

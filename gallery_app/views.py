@@ -22,7 +22,16 @@ def home(request):
     if len(top_likes)>3:
         context['top_like']=top_likes[0:3]
     else:
-        context['top_likes']=top_likes
+        context['top_like']=top_likes
+    # Initializing Posts in a Category
+    for i in context['cat']:
+        p=0
+        for j in context['posts']:
+            if i[0]==j[5]:
+                p+=1
+        p = str(p)        
+        sql="update category_list set posts='"+p+"' where cat_id='"+str(i[0])+"'"
+        connections.update(sql)
     if 'admin' in request.session:
         context['admin_data']=request.session['admin']
         return render(request,'main/index.html',context)
@@ -79,6 +88,9 @@ def post(request):
             sql = "update post_list set comments='"+comment_count+"' where post_id='"+id+"'"
             connections.update(sql)
             context['likes']=likes_count
+            sql = "select * from artist_list where artist_id='"+post_details[3]+"'"
+            artist_data=connections.select(sql)
+            context['artist_data']=artist_data
             if 'admin' in request.session:
                 context['admin_data']=request.session['admin']
                 if request.session['admin'][1] in post_like:
@@ -184,6 +196,10 @@ def register(request):
             if request.POST.get("password")==request.POST.get("c_password"):
                 name = request.POST.get("name")
                 id = request.POST.get("user_id")
+                sql = "select user_id from user_list where user_id='"+id+"'"
+                check_id = connections.select(sql)
+                if check_id:
+                    return render(request,'main/register.html',{'error':"Id Already Exits"})
                 email = request.POST.get("email")
                 contact = request.POST.get("contact")
                 gender = request.POST.get("gender")
@@ -438,11 +454,64 @@ def userHome(request):
     try:
         if request.session['user']:
             sql = "select * from user_list where user_id='"+request.session['user'][1]+"'"
-            data = connections.select(sql)
-            context['user']=data
+            user_data = connections.select(sql)
+            context['user']=user_data
+            sql = "select post_id from like_list where user_id='"+request.session['user'][1]+"'"
+            like_posts=connections.selectall(sql)
+            liked_list=[] 
+            for id in like_posts:
+                sql = "select * from post_list where post_id='"+id[0]+"'"
+                get = connections.select(sql)
+                liked_list.append(get)
+            print(liked_list)
+            context['data']=liked_list
             return render(request,'user/index.html',context)
     except:
-        return render(request,'login.html')
+        return render(request,'main/login.html')
+
+def editUser(request):
+    context ={}
+    uid = request.session['user'][1]
+    if request.session['user']:
+        if request.POST:
+            name = request.POST.get("name")
+            id = request.POST.get("user_id")
+            if id != uid:
+                sql = "select user_id from user_list where user_id='"+id+"'"
+                check_id = connections.select(sql)
+                if check_id:
+                    context['msg']="userid already exists"
+                    sql = "select * from user_list where user_id='"+request.session['user'][1]+"'"
+                    user_details = connections.select(sql)
+                    context['details']=user_details
+                    return render(request,'user/editProfile.html',context)
+            email = request.POST.get("email")            
+            contact = request.POST.get("contact")
+            password = request.POST.get("password")
+            if request.POST.get('img'):
+                fs = FileSystemStorage()
+                image = request.FILES['img']
+                image_name = id+str(randint(1,10000))+image.name
+                fs.save("user/profile_pic/"+image_name,image)
+            else:
+                image_name="blank-profile-picture-973460_1280.png"
+            sql = "update user_list set name='"+name+"',user_id='"+id+"',email='"+email+"',contact='"+contact+"',password='"+password+"',profile_pic='"+image_name+"' where user_id='"+uid+"' "
+            connections.update(sql)
+            sql = "update logintb set user_id='"+id+"',password='"+password+"' where user_id='"+uid+"' "
+            connections.update(sql)
+            sql = "select * from logintb where user_id='"+id+"'"
+            user = connections.select(sql)
+            request.session['user']=user
+            context['msg']="updated"
+        sql = "select * from user_list where user_id='"+request.session['user'][1]+"'"
+        data = connections.select(sql)
+        context['user']=data
+        sql = "select * from user_list where user_id='"+request.session['user'][1]+"'"
+        user_details = connections.select(sql)
+        context['details']=user_details
+        print(uid)
+        return render(request,'user/editProfile.html',context)
+    return render(request,'error')
 
 # Error Page
 def error(request):
