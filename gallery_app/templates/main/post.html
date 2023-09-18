@@ -50,10 +50,17 @@
     <div style="text-align: left;" class="comment-show">
         <table>
         {% for j in comments %}
-        <tr style="border: 1px solid black;">
-            <td>
-        <p class="description"><td class="id"><span>{{j.2}} </span> </td>
+        <tr>
+            <p class="description"><td class="id"><span>{{j.2}} </span> </td>
             <td class="post-time">{{j.3}}</p></td>
+            <td><div class="dropdown">
+                <button class="dropbtn"><i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-content">
+                <a href="spamComment">Report Spam</a>
+                </div>
+              </div>
+            </td>
         </tr>
         {% endfor %}
         </table>

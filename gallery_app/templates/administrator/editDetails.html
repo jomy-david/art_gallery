@@ -1,0 +1,30 @@
+{% extends 'administrator/index.html' %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<table style="width: fit-content;" class="table table-bordered table-dark">
+  
+      <tr>
+        <th>ID</th>
+        <td><input type="text" value="{{details.1}}" maxlength="15" name="id"></td>
+      </tr>
+      <tr>
+        <th>Old Password</th>
+        <td><input type="text" value="{{details.4}}" maxlength="15" name="c_password"></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><input type="password" value="" maxlength="15" name="password"></td>
+      </tr>
+      <tr>
+        <th>Confirm Password</th>
+        <td><input type="text" maxlength="15" name="c_password"></td>
+      </tr>
+      <tr align="center"><td colspan="2"><input type="submit" value="update">{{error}}</td></tr>
+</table>
+</form>
+
+{% endblock %}
+

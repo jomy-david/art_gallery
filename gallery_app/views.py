@@ -163,7 +163,20 @@ def addComment(request):
             connections.insert(sql)
             return HttpResponseRedirect('viewPost?id='+post_id)
 
-
+def spamComment(request):
+    # context={}
+    # if request.GET.get('id'):
+    #     comment = str(request.GET['id'])
+    #     if 'artist' in request.session.keys():
+    #         user_id = request.session['artist'][1]
+    #     elif 'admin' in request.session.keys():
+    #         user_id = request.session['admin'][1]
+    #     elif 'user' in request.session.keys():
+    #         user_id = request.session['user'][1]
+    #     else:
+    #         return HttpResponseRedirect('Login')
+    pass
+    
 # Registration and login
 
 def register(request):
@@ -267,6 +280,32 @@ def admin(request):
         context['aprovals']=artist_aprovals
         context['aprovals_len']=len(artist_aprovals)
         return render(request,'administrator/index.html',context)
+    
+def adminEdit(request):
+    context={}
+    uid = request.session['admin'][1]
+    sql = "select * from logintb where user_id='"+uid+"'"
+    context['details']=connections.select(sql)
+    sql = "select * from logintb where user_id='"+uid+"'"
+    context['admin']=connections.select(sql)
+    if request.POST:
+        if request.POST.get("password")==request.POST.get("c_password"):
+            id = request.POST.get("id")
+            if id!=uid:
+                sql = "select user_id from logintb where user_id='"+id+"'"
+                check_id = connections.select(sql)
+                if check_id:
+                    context['error']="User ID Already Exists"
+                    return render(request,'administrator/editDetails.html',context)
+            password = request.POST.get("password")
+            sql = "update logintb set user_id='"+id+"',password='"+password+"' where user_id='"++"'"
+            connections.update(sql)
+            return HttpResponseRedirect('adminEdit')
+    sql = "select * from logintb where user_id='"+uid+"'"
+    context['details']=connections.select(sql)
+    sql = "select * from logintb where user_id='"+uid+"'"
+    context['admin']=connections.select(sql)
+    return render(request,'administrator/editDetails.html',context)
 
 def artistAp(request):
     context ={}
@@ -308,6 +347,16 @@ def denyArtist(request):
         connections.update(sql)
         return HttpResponseRedirect('artistAprovals')
     return HttpResponseRedirect('error')
+
+def artistList(request):
+    context ={}
+    if request.session['admin']:
+        context['admin']=request.session['admin']
+        sql = "select * from artist_list"
+        artist_list = connections.selectall(sql)
+        context['artist_list']=artist_list
+        return render(request,'administrator/artistList.html',context)
+    return render(request,'error')
 
 def editGallery(request):
     if request.POST:
