@@ -475,12 +475,45 @@ def artistProfile(request):
     
 def editArtist(request):
     context ={}
+    uid = request.session['artist'][1]
     if request.session['artist']:
-        id = request.session['artist'][1]
-        context['artist']=request.session['artist']
-        sql = "select * from artist_list where artist_id='"+id+"'"
-        artist_details = connections.select(sql)
-        context['details']=artist_details
+        if request.POST:
+            name = request.POST.get("name")
+            id = request.POST.get("artist_id")
+            if id != uid:
+                sql = "select user_id from logintb where user_id='"+id+"'"
+                check_id = connections.select(sql)
+                if check_id:
+                    context['msg']="ID already exists"
+                    sql = "select * from artist_list where artist_id='"+request.session['artist'][1]+"'"
+                    user_details = connections.select(sql)
+                    context['details']=user_details
+                    return render(request,'artist/editProfile.html',context)
+            email = request.POST.get("email")            
+            contact = request.POST.get("contact")
+            password = request.POST.get("password")
+            if request.POST.get('img'):
+                fs = FileSystemStorage()
+                image = request.FILES['img']
+                image_name = id+str(randint(1,10000))+image.name
+                fs.save("user/profile_pic/"+image_name,image)
+                sql = "update artist_list set name='"+name+"',user_id='"+id+"',email='"+email+"',contact='"+contact+"',password='"+password+"',profile_pic='"+image_name+"' where user_id='"+uid+"' "
+                connections.update(sql)
+            else:
+                sql = "update artist_list set name='"+name+"',user_id='"+id+"',email='"+email+"',contact='"+contact+"',password='"+password+"' where user_id='"+uid+"' "
+                connections.update(sql)           
+            sql = "update logintb set user_id='"+id+"',password='"+password+"' where user_id='"+uid+"' "
+            connections.update(sql)
+            sql = "select * from logintb where user_id='"+id+"'"
+            user = connections.select(sql)
+            request.session['artist']=user
+            context['msg']="updated"
+        sql = "select * from artist_list where artist_id='"+request.session['artist'][1]+"'"
+        data = connections.select(sql)
+        context['artist']=data
+        sql = "select * from artist_list where artist_id='"+request.session['artist'][1]+"'"
+        user_details = connections.select(sql)
+        context['details']=user_details
         return render(request,'artist/editProfile.html',context)
     return render(request,'error')
 
@@ -509,6 +542,20 @@ def addPost(request):
             return HttpResponseRedirect('artistHome')
         return render(request,'artist/addPost.html',context)
     
+def adminContact(request):
+    context ={}   
+    if request.session['artist']:
+        id = request.session['artist'][1]
+        sql = "select * from artist_list where artist_id='"+id+"'"
+        context['artist']=connections.select(sql)
+        reciever = "Asura"
+        if request.POST:
+            content = request.POST.get('msg')
+            sql = "insert into messages_table(sender_id,reciever_id,content,status)values('"+id+"','"+reciever+"','"+content+"','0')"
+            connections.insert(sql)      
+        sql = "select content from messages_table where sender_id='"+id+"' and reciever_id='"+reciever+"'"
+        context['messages'] = connections.selectall(sql)
+        return render(request,'artist/adminContact.html',context)
 
 # User
 
@@ -540,7 +587,7 @@ def editUser(request):
             name = request.POST.get("name")
             id = request.POST.get("user_id")
             if id != uid:
-                sql = "select user_id from user_list where user_id='"+id+"'"
+                sql = "select user_id from logintb where user_id='"+id+"'"
                 check_id = connections.select(sql)
                 if check_id:
                     context['msg']="userid already exists"

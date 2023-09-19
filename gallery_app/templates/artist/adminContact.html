@@ -1,0 +1,17 @@
+{% extends 'artist/myGallery.html' %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+<table style="width: 100%;" class="table table-dark">
+  {% for i in messages %}
+<tr>
+    <td>{{i.0}}</td><td colspan="2"></td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="2" width="100%"><input style="border: none;width: 100%;height: 100%;margin: 0px; padding: 0px;" type="text" name="msg" placeholder="Send a Message..."></td><td><input type="submit" class="btn comment-btn" value="Send"></td>
+</tr>
+</table>
+</form>
+  {% endblock %}

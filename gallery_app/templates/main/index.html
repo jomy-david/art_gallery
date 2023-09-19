@@ -130,7 +130,9 @@
             {% for post in top_like %}
             <div class="item">
               <div class="thumb">
+                <a href="viewPost?id={{post.0}}">
                 <img src="media/artist/uploads/{{post.1}}" alt="">
+                
                 <div class="hover-effect">
                   <div class="content">
                     <h4>{{post.7}}</h4>
@@ -140,6 +142,7 @@
                     </ul>
                   </div>
                 </div>
+              </a>
               </div>
             </div>
             {% endfor %}
@@ -193,9 +196,11 @@
           {% if post.5 == i.0 %}
           <div class="popular-item">
             <div class="thumb col">
+              <a href="viewPost?id={{post.0}}">
               <img src="media/artist/uploads/{{post.1}}" alt="">
               <span class="category">{{post.2}}</span>
               <span class="likes"><i class="fa fa-heart"></i> {{post.8}}</span>
+              </a>
             </div>
           </div>
         

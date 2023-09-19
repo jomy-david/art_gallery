@@ -31,6 +31,7 @@ urlpatterns=[
     path('artistEdit',views.editArtist),
     path('ArtistPage',views.artistProfile),
     path('addPost',views.addPost),
+    path('AdminContact',views.adminContact),
     # User
     path('userHome',views.userHome),
     path('userEdit',views.editUser),
