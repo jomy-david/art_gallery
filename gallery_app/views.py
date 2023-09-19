@@ -76,17 +76,20 @@ def post(request):
             sql = "select * from post_list where post_id='"+id+"'"
             post_details = connections.select(sql)
             context['post']=post_details
+            # Updating Likes Count
             sql = "select user_id from like_list where post_id='"+id+"'"
             post_like = connections.selectall(sql)
             likes_count=str(len(post_like))
             sql = "update post_list set likes='"+likes_count+"' where post_id='"+id+"'"
             connections.update(sql)
+            # Updating Comments Count
             sql = "select * from comments where post_id='"+id+"'"
             comments = connections.selectall(sql)
             context['comments']=comments
             comment_count=str(len(comments))
             sql = "update post_list set comments='"+comment_count+"' where post_id='"+id+"'"
             connections.update(sql)
+
             context['likes']=likes_count
             sql = "select * from artist_list where artist_id='"+post_details[3]+"'"
             artist_data=connections.select(sql)
@@ -164,18 +167,29 @@ def addComment(request):
             return HttpResponseRedirect('viewPost?id='+post_id)
 
 def spamComment(request):
-    # context={}
-    # if request.GET.get('id'):
-    #     comment = str(request.GET['id'])
-    #     if 'artist' in request.session.keys():
-    #         user_id = request.session['artist'][1]
-    #     elif 'admin' in request.session.keys():
-    #         user_id = request.session['admin'][1]
-    #     elif 'user' in request.session.keys():
-    #         user_id = request.session['user'][1]
-    #     else:
-    #         return HttpResponseRedirect('Login')
-    pass
+    context={}
+    if request.GET.get('comment_id'):
+        comment_id = request.GET.get('comment_id')
+        post_id=request.GET.get('post_id')
+        if 'artist' in request.session.keys():
+            user_id = request.session['artist'][1]
+        elif 'admin' in request.session.keys():
+            user_id = request.session['admin'][1]
+        elif 'user' in request.session.keys():
+            user_id = request.session['user'][1]
+        else:
+            return HttpResponseRedirect('Login')
+        sql = "select * from commentSpam where comment_id='"+comment_id+"' and user_id='"+user_id+"'"
+        spam_check = connections.select(sql)
+        if spam_check:
+            return HttpResponseRedirect('viewPost?id='+post_id)
+        else:
+            sql = "insert into commentSpam(comment_id,user_id)values('"+comment_id+"','"+user_id+"')"
+            connections.insert(sql)
+            sql = "update comments set spam=spam+1 where id='"+comment_id+"'"
+            connections.update(sql)
+            return HttpResponseRedirect('viewPost?id='+post_id)
+    
     
 # Registration and login
 
