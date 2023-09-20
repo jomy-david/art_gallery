@@ -50,6 +50,7 @@
     <div style="text-align: left;" class="comment-show">
         <table>
         {% for j in comments %}
+        {% if j.4 <= 4 %}
         <tr>
             <p class="description"><td class="id"><span>{{j.2}} </span> </td>
             <td class="post-time">{{j.3}}</p></td>
@@ -62,6 +63,7 @@
               </div>
             </td>
         </tr>
+        {% endif %}
         {% endfor %}
         </table>
     </div>

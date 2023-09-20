@@ -45,7 +45,7 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="./" class="active">Home</a></li>
-                        <li class="has-sub" style="padding-right: 68px;">
+                        <li class="has-sub" style="padding-right: 15px;">
                           <a href="javascript:void(0)">Categories</a>
                           <ul class="sub-menu">
                             {% for i in cat %}
@@ -53,6 +53,9 @@
                               {% endfor %}
                           </ul>
                       </li>
+                      {% if user_data.2 == "user" %}
+                      <li><a href="ArtistList">Artists</a></li>
+                      {% endif %}
                     </ul> 
                     {% if user_data.2 == "artist" %}  
                     <div class="border-button">

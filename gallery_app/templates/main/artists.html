@@ -1,0 +1,60 @@
+{% extends 'main/index.html' %}
+
+{% block link %}
+
+<title>Gallery</title>
+
+<!-- Bootstrap core CSS -->
+<link href="static/main/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="static/main/assets/css/stylesNavbar.css">
+<link rel="stylesheet" href="static/main/assets/css/artistlist.css">
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="static/main/assets/css/owl.css">
+    <link rel="stylesheet" href="static/main/assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="static/main/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="static/main/assets/css/templatemo-snapx-photography.css">
+{% endblock %}
+
+{% block content %}
+<section class="gallery min-vh-100">
+    <article class="row" style="margin-bottom: 70px;font-size: 30px;color: #00bdfe;font-weight: 700;display: grid;justify-content: center;">
+        Our Artists
+      </article>
+    <div class="container-lg">
+        <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-md-3">
+          {% for artist in artist_data %}
+          {% if artist.10 == 1 %}
+          <a style="text-decoration: none;color: black;" href="ArtistPage?id={{artist.2}}">
+            <div id="{{artist.0}}" class="col items" onclick="">
+                <img src="media/artist/profile_pic/{{artist.6}}" class="gallery-item" alt="Gallery1">
+                <span class="details">{{artist.1}}</span>
+              <span class="likes">Posts {{artist.11}}</span>
+            </div>
+          </a>
+        {% endif %}
+   
+
+<!-- Modal -->
+
+
+
+
+{% endfor %}
+</div>
+</div>
+</section>
+
+{% endblock %}
+
+{% block foot %}
+<script src="static/main/vendor/jquery/jquery.min.js"></script>
+<script src="static/main/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="static/main/assets/js/isotope.min.js"></script>
+<script src="static/main/assets/js/owl-carousel.js"></script>
+
+<script src="static/main/assets/js/tabs.js"></script>
+<script src="static/main/assets/js/custom.js"></script>
+{% endblock %}

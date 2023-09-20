@@ -10,6 +10,7 @@ urlpatterns=[
     path('likePost',views.likePost),
     path('addComment',views.addComment),
     path('spamComment',views.spamComment),
+    path('ArtistList',views.ArtistsList),
     # Admin
     path('administrator',views.admin),
     path('register',views.register),

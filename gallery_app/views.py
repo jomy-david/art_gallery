@@ -164,7 +164,7 @@ def addComment(request):
         else:
             sql = "insert into comments(post_id,user_id,comment,spam)values('"+post_id+"','"+user_id+"','"+comment+"','0')"
             connections.insert(sql)
-            return HttpResponseRedirect('viewPost?id='+post_id)
+            return HttpResponseRedirect('http://127.0.0.1:8000/viewPost?id='+post_id)
 
 def spamComment(request):
     context={}
@@ -189,6 +189,33 @@ def spamComment(request):
             sql = "update comments set spam=spam+1 where id='"+comment_id+"'"
             connections.update(sql)
             return HttpResponseRedirect('viewPost?id='+post_id)
+        
+def ArtistsList(request):
+    context={}
+    sql = "select * from post_list where status='1'"
+    post_data = connections.selectall(sql)
+    sql = "select artist_id from artist_list"
+    artists_data= connections.selectall(sql)
+    for artist in artists_data:
+        counter = 0
+        for post in post_data:
+            if artist[0]==post[3]:
+                counter+=1
+        sql = "update artist_list set posts='"+str(counter)+"' where artist_id='"+artist[0]+"'"
+        connections.update(sql)
+    sql = "select * from artist_list"   
+    context['artist_data']=connections.selectall(sql)
+    if 'admin' in request.session:
+        context['admin_data']=request.session['admin']
+        return render(request,'main/artists.html',context)
+    elif 'artist' in request.session:
+        context['user_data']=request.session['artist']
+        return render(request,'main/artists.html',context)
+    elif 'user' in request.session:
+        context['user_data']=request.session['user']
+        return render(request,'main/artists.html',context)
+    else:
+        return HttpResponseRedirect('error')
     
     
 # Registration and login
